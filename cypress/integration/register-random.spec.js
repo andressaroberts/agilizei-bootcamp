@@ -5,6 +5,21 @@ let chance = new Chance();
 
 context('Register', () =>{
     it('Register an user in the website', () => {
+        //ROUTES => mapeadas antes do click que vai desencadeá-las (aqui, o submit)
+        //POST 200 /api/1/databases/userdetails/collections/newtable?apiKey=YEX0M2QMPd7JWJw_ipMB3a5gDddt4B_X
+        //POST 200 /api/1/databases/userdetails/collections/usertable?apiKey=YEX0M2QMPd7JWJw_ipMB3a5gDddt4B_X
+        //GET 200 /api/1/databases/userdetails/collections/newtable?apiKey=YEX0M2QMPd7JWJw_ipMB3a5gDddt4B_X
+        cy.server(); //obrigatório pra lidar com rotas
+
+        cy.route('POST', '**/api/1/databases/userdetails/collections/newtable?**')
+        .as('postNewTable');
+
+        cy.route('POST', '**/api/1/databases/userdetails/collections/usertable?**')
+        .as('postUserTable');
+
+        cy.route('GET', '**/api/1/databases/userdetails/collections/newtable?**')
+        .as('getNewTable')
+
         cy.visit('Register.html')
 
         cy.get('input[placeholder="First Name"]').type(chance.first());
@@ -24,9 +39,17 @@ context('Register', () =>{
         cy.get('input#firstpassword').type('Friday@1')
         cy.get('input#secondpassword').type('Friday@1')
 
+        //attach-file
         cy.get('input#imagesrc').attachFile('image-register.PNG')
+        
+        //click
         cy.get('button#submitbtn').click();
-        //cy.pause();
+
+        cy.wait('@postNewTable').then((resNewTable)=> {
+            console.log(resNewTable.status)
+            cy.log(resNewTable.status)
+        })
+        
 
     })
 })
@@ -35,4 +58,5 @@ context('Register', () =>{
 //input[ng-model^=Nome] => comece com
 //check => radio e checkbox
 //select#Skills => selects são bons para Id
-
+//cy.pause();
+//((resNewTable)) => variavel do tipo XHR, me devolve os dados da resposta
