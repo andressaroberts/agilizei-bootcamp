@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 let Chance = require('chance');
+
 let chance = new Chance();
 
 context('Register', () =>{
@@ -36,23 +37,34 @@ context('Register', () =>{
         cy.get('select#yearbox').select('1998');
         cy.get('select[ng-model^=month]').select('February');
         cy.get('select#daybox').select('24');
-        cy.get('input#firstpassword').type('Friday@1')
-        cy.get('input#secondpassword').type('Friday@1')
+        cy.get('input#firstpassword').type('Friday@1');
+        cy.get('input#secondpassword').type('Friday@1');
 
         //attach-file
-        cy.get('input#imagesrc').attachFile('image-register.PNG')
+        cy.get('input#imagesrc').attachFile('image-register.PNG');
         
         //click
         cy.get('button#submitbtn').click();
 
         cy.wait('@postNewTable').then((resNewTable)=> {
-            console.log(resNewTable.status)
-            cy.log(resNewTable.status)
+            //chai
+            expect(resNewTable.status).to.eq(200)
         })
-        
 
-    })
-})
+        cy.wait('@getNewTable').then((resNewTable)=> {
+            //chai
+            expect(resNewTable.status).to.eq(200)
+        })
+
+        cy.wait('@postUserTable').then((resUserTable)=> {
+            //chai
+            expect(resUserTable.status).to.eq(200)
+        })
+
+        cy.url().should('contain','WebTable');
+
+    });
+});
 
 
 //input[ng-model^=Nome] => comece com

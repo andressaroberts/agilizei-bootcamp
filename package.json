@@ -1,0 +1,29 @@
+{
+  "name": "agilizei",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "chance": "^1.1.7",
+    "cypress": "^5.2.0",
+    "cypress-file-upload": "^4.1.1"
+  },
+  "devDependencies": {},
+  "cypress-cucumber-preprocessor":{
+    "nonGlobalStepDefinitions": true
+  },
+  "scripts": {
+    "cy:open": "npx cypress open",
+    "cy:run": "npx cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andressaroberts/agilizei-bootcamp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andressaroberts/agilizei-bootcamp/issues"
+  },
+  "homepage": "https://github.com/andressaroberts/agilizei-bootcamp#readme"
+}
